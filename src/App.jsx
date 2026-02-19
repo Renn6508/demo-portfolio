@@ -154,12 +154,99 @@ const SKILLS = [
   { icon: '📱', name: 'Mobile',    desc: 'React Native, Expo — aplikasi cross-platform iOS & Android.', level: '06' },
 ]
 
+const PROGRAMMING_LANGUAGES = [
+  { name: 'HTML', percentage: 95 },
+  { name: 'CSS', percentage: 90 },
+  { name: 'JavaScript', percentage: 92 },
+  { name: 'Python', percentage: 75 },
+  { name: 'PHP', percentage: 70 },
+  { name: 'Next.js', percentage: 88 },
+  { name: 'Lua', percentage: 60 },
+  { name: 'Dart', percentage: 80 },
+  { name: 'Rust', percentage: 55 },
+  { name: 'R', percentage: 65 },
+  { name: 'Java', percentage: 78 },
+  { name: 'REST API', percentage: 90 },
+]
+
+const FRAMEWORKS_TOOLS = [
+  { name: 'Git', percentage: 95 },
+  { name: 'Github', percentage: 95 },
+  { name: 'VSCode', percentage: 98 },
+  { name: 'Composer', percentage: 80 },
+  { name: 'Figma', percentage: 85 },
+  { name: 'Canva', percentage: 80 },
+  { name: 'Inkscape', percentage: 75 },
+  { name: 'Node.js', percentage: 90 },
+  { name: 'React', percentage: 92 },
+  { name: 'Flutter', percentage: 82 },
+  { name: 'MySql', percentage: 88 },
+  { name: 'PostgreSQL', percentage: 85 },
+]
+
 const GALLERY_IMGS = [
   { src: 'https://images.unsplash.com/photo-1536152470836-b943b246224c?w=600&q=70', label: 'Mountain Summit' },
   { src: 'https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?w=600&q=70', label: 'Wild Forest' },
   { src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&q=70', label: 'Open Horizon' },
   { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=70', label: 'Snow Peak' },
   { src: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=70', label: 'Valley Depths' },
+]
+
+const CERTIFICATES = [
+  {
+    id: 1,
+    title: 'React Developer Certification',
+    issuer: 'Udemy',
+    date: '2024',
+    image: 'https://images.unsplash.com/photo-1633356122544-f134324ef6e0?w=600&q=70',
+    description: 'Complete React.js course covering hooks, state management, and advanced patterns.',
+    pdfUrl: '#',
+  },
+  {
+    id: 2,
+    title: 'Full Stack Web Development',
+    issuer: 'Coursera',
+    date: '2023',
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=70',
+    description: 'Full stack development course including frontend, backend, and database design.',
+    pdfUrl: '#',
+  },
+  {
+    id: 3,
+    title: 'JavaScript ES6+ Mastery',
+    issuer: 'LinkedIn Learning',
+    date: '2024',
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=70',
+    description: 'Advanced JavaScript concepts and modern ES6+ features.',
+    pdfUrl: '#',
+  },
+  {
+    id: 4,
+    title: 'UI/UX Design Fundamentals',
+    issuer: 'Interaction Design Foundation',
+    date: '2023',
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=70',
+    description: 'UI/UX design principles, user research, and design thinking.',
+    pdfUrl: '#',
+  },
+  {
+    id: 5,
+    title: 'Node.js Backend Development',
+    issuer: 'Udemy',
+    date: '2024',
+    image: 'https://images.unsplash.com/photo-1633356122544-f134324ef6e0?w=600&q=70',
+    description: 'Build scalable backend applications with Node.js and Express.',
+    pdfUrl: '#',
+  },
+  {
+    id: 6,
+    title: 'Flutter Mobile Development',
+    issuer: 'Udacity',
+    date: '2023',
+    image: 'https://images.unsplash.com/photo-1512941691920-25bda36dc643?w=600&q=70',
+    description: 'Cross-platform mobile development using Flutter framework.',
+    pdfUrl: '#',
+  },
 ]
 
 // ─────────────────────────────────────────────
@@ -481,6 +568,111 @@ function About() {
 }
 
 // ─────────────────────────────────────────────
+// INTERSHIP AVAILABILITY
+// ─────────────────────────────────────────────
+function InternshipAvailability() {
+  const secRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.internship-card',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: '.internship-card', start: 'top 80%' } }
+      )
+    }, secRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section className="internship" id="internship" ref={secRef}>
+      <div className="container">
+        <div className="internship-header">
+          <SplitText text="Opportunity" className="section-label" tag="span" stagger={0.04} y={15} />
+          <SplitText text="INTERNSHIP AVAILABILITY" className="section-title" tag="h2" stagger={0.04} y={50} duration={0.7} />
+        </div>
+
+        <SpotlightCard className="internship-card" spotlightColor="rgba(232,0,30,0.12)">
+          <div className="internship-content">
+            <div className="internship-item">
+              <span className="internship-label">INTERNSHIP PLAN</span>
+              <p className="internship-value">July 2025 - December 2026</p>
+            </div>
+            <div className="internship-divider" />
+            <div className="internship-item">
+              <span className="internship-label">DURATION</span>
+              <p className="internship-value">6 Months</p>
+            </div>
+            <div className="internship-divider" />
+            <div className="internship-item">
+              <span className="internship-label">LOCATION</span>
+              <p className="internship-value">Anywhere / Remote</p>
+            </div>
+          </div>
+        </SpotlightCard>
+      </div>
+    </section>
+  )
+}
+
+// ─────────────────────────────────────────────
+// SKILLS  — SpotlightCard (React Bits)
+// ─────────────────────────────────────────────
+function SkillProficiency() {
+  const secRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate bars
+      gsap.fromTo('.skill-bar-fill',
+        { scaleX: 0 },
+        { scaleX: 1, duration: 1.5, stagger: 0.05, ease: 'power2.out',
+          scrollTrigger: { trigger: '.skill-categories', start: 'top 75%' } }
+      )
+    }, secRef)
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <div className="skill-categories" ref={secRef}>
+      <div className="skill-category">
+        <h3 className="skill-category-title">LANGUAGES</h3>
+        <div className="skill-bars">
+          {PROGRAMMING_LANGUAGES.map((skill) => (
+            <div className="skill-bar-item" key={skill.name}>
+              <div className="skill-bar-header">
+                <span className="skill-bar-name">{skill.name}</span>
+                <span className="skill-bar-percent">{skill.percentage}%</span>
+              </div>
+              <div className="skill-bar-track">
+                <div className="skill-bar-fill" style={{ '--progress': `${skill.percentage}%` }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="skill-category">
+        <h3 className="skill-category-title">FRAMEWORKS & TOOLS</h3>
+        <div className="skill-bars">
+          {FRAMEWORKS_TOOLS.map((skill) => (
+            <div className="skill-bar-item" key={skill.name}>
+              <div className="skill-bar-header">
+                <span className="skill-bar-name">{skill.name}</span>
+                <span className="skill-bar-percent">{skill.percentage}%</span>
+              </div>
+              <div className="skill-bar-track">
+                <div className="skill-bar-fill" style={{ '--progress': `${skill.percentage}%` }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────
 // SKILLS  — SpotlightCard (React Bits)
 // ─────────────────────────────────────────────
 function Skills() {
@@ -517,6 +709,11 @@ function Skills() {
               </SpotlightCard>
             </div>
           ))}
+        </div>
+
+        {/* Skill Proficiency Bars */}
+        <div className="skills-proficiency-wrapper">
+          <SkillProficiency />
         </div>
       </div>
     </section>
@@ -672,7 +869,47 @@ function ParallaxBand() {
 // ─────────────────────────────────────────────
 // GALLERY
 // ─────────────────────────────────────────────
+function CertificateModal({ certificate, onClose }) {
+  const modalRef = useRef(null)
+
+  useEffect(() => {
+    const handleEsc = (e) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [onClose])
+
+  return (
+    <div className="modal-overlay" onClick={onClose} ref={modalRef}>
+      <div className="certificate-modal-panel" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>✕</button>
+
+        <div className="certificate-modal-image">
+          <img src={certificate.image} alt={certificate.title} />
+        </div>
+
+        <div className="certificate-modal-body">
+          <div className="certificate-modal-meta">
+            <span className="certificate-issuer">{certificate.issuer}</span>
+            <span className="certificate-date">{certificate.date}</span>
+          </div>
+
+          <h2 className="certificate-modal-title">{certificate.title}</h2>
+
+          <p className="certificate-modal-description">{certificate.description}</p>
+
+          <div className="certificate-modal-actions">
+            <a href={certificate.pdfUrl} className="btn-download-pdf" download>
+              <span>📥 Download Certificate</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Gallery() {
+  const [selectedCert, setSelectedCert] = useState(null)
   const secRef = useRef(null)
 
   useEffect(() => {
@@ -689,17 +926,31 @@ function Gallery() {
   return (
     <div className="gallery-section" ref={secRef}>
       <div className="gallery-title-wrap container">
-        <SplitText text="Visual Diary" className="section-label" tag="span" stagger={0.04} y={15} />
-        <SplitText text="INSPIRATION" className="section-title" tag="h2" stagger={0.05} y={50} duration={0.7} />
+        <SplitText text="Professional Achievements" className="section-label" tag="span" stagger={0.04} y={15} />
+        <SplitText text="CERTIFICATES" className="section-title" tag="h2" stagger={0.05} y={50} duration={0.7} />
       </div>
       <div className="h-scroll-track">
-        {GALLERY_IMGS.map((g, i) => (
-          <TiltedCard key={i} maxTilt={8} scale={1.03} className="gallery-card">
-            <img src={g.src} alt={g.label} />
-            <div className="gallery-card-label">{g.label}</div>
-          </TiltedCard>
+        {CERTIFICATES.map((cert) => (
+          <div
+            key={cert.id}
+            className="gallery-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => setSelectedCert(cert)}
+            onKeyDown={(e) => e.key === 'Enter' && setSelectedCert(cert)}
+          >
+            <TiltedCard maxTilt={8} scale={1.03}>
+              <img src={cert.image} alt={cert.title} />
+              <div className="gallery-card-label">{cert.title}</div>
+              <div className="gallery-cert-overlay">
+                <span className="gallery-cert-click">Click for details</span>
+              </div>
+            </TiltedCard>
+          </div>
         ))}
       </div>
+
+      {selectedCert && <CertificateModal certificate={selectedCert} onClose={() => setSelectedCert(null)} />}
     </div>
   )
 }
@@ -815,6 +1066,7 @@ export default function App() {
         <Hero />
         <Ticker />
         <About />
+        <InternshipAvailability />
         <Skills />
         <Work />
         <ParallaxBand />

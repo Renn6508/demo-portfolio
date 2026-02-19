@@ -69,6 +69,39 @@
 .nav-links a:hover { color: var(--white); }
 .nav-links a:hover::after { width: 100%; }
 
+/* ── Navbar CV Button ── */
+.nav-cv-btn {
+  font-family: var(--font-cond);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--red);
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.nav-cv-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+.nav-cv-btn:hover::before {
+  transform: translateX(0);
+}
+.nav-cv-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232,0,30,0.4);
+}
+
 /* ── HERO ── */
 .hero {
   position: relative;
@@ -128,6 +161,14 @@
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: rgba(245,240,235,0.6);
+}
+
+/* ── Hero CTA Buttons ── */
+.hero-cta-buttons {
+  margin-top: 3.5rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
 }
 .hero-scroll-cue {
   position: absolute;
@@ -285,6 +326,57 @@
   color: var(--muted);
 }
 
+/* ── INTERNSHIP AVAILABILITY ── */
+.internship {
+  padding: 8rem 0;
+  background: var(--dark);
+  position: relative;
+}
+.internship-header {
+  margin-bottom: 4rem;
+}
+.internship-card {
+  background: var(--mid);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+.internship-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  align-items: center;
+}
+.internship-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.internship-label {
+  font-family: var(--font-cond);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red);
+  font-weight: 700;
+}
+.internship-value {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  line-height: 1.2;
+  margin: 0;
+}
+.internship-divider {
+  width: 1px;
+  height: 60px;
+  background: rgba(255,255,255,0.1);
+  justify-self: center;
+}
+
 /* ── SKILLS ── */
 .skills {
   padding: 10rem 0;
@@ -338,6 +430,75 @@
   font-size: 3.5rem;
   color: rgba(255,255,255,0.04);
   line-height: 1;
+}
+
+/* ── Skill Proficiency Bars ── */
+.skills-proficiency-wrapper {
+  margin-top: 8rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.skill-categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+.skill-category {
+  display: flex;
+  flex-direction: column;
+}
+.skill-category-title {
+  font-family: var(--font-cond);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 2rem;
+}
+.skill-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+.skill-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.skill-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.skill-bar-name {
+  font-family: var(--font-cond);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245,240,235,0.7);
+}
+.skill-bar-percent {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--red);
+  font-weight: 600;
+}
+.skill-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  transform-origin: left;
+}
+.skill-bar-fill {
+  height: 100%;
+  width: var(--progress, 0%);
+  background: linear-gradient(to right, var(--red), rgba(232,0,30,0.6));
+  border-radius: 2px;
+  transform-origin: left;
 }
 
 /* ── WORK ── */
@@ -609,6 +770,143 @@
   font-family: var(--font-display);
   font-size: 1.4rem;
   letter-spacing: 0.05em;
+}
+
+/* ── Certificate Gallery Overlay ── */
+.gallery-cert-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(232,0,30,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  cursor: pointer;
+}
+.gallery-card:hover .gallery-cert-overlay {
+  opacity: 1;
+}
+.gallery-cert-click {
+  font-family: var(--font-cond);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-align: center;
+}
+
+/* ── Certificate Modal ── */
+.certificate-modal-panel {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  max-height: 85vh;
+  background: var(--dark);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--red) transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  animation: modalSlideUp 0.4s ease-out;
+}
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.certificate-modal-image {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+.certificate-modal-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+.certificate-modal-body {
+  padding: 2.5rem;
+}
+.certificate-modal-meta {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.certificate-issuer {
+  font-family: var(--font-cond);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--red);
+  font-weight: 700;
+}
+.certificate-date {
+  font-family: var(--font-cond);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.certificate-modal-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--white);
+}
+.certificate-modal-description {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: rgba(245,240,235,0.65);
+  margin-bottom: 2rem;
+}
+.certificate-modal-actions {
+  display: flex;
+  gap: 1rem;
+}
+.btn-download-pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-cond);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-download-pdf::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.15);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform 0.4s ease;
+}
+.btn-download-pdf:hover::before {
+  transform: translateX(120%) skewX(-15deg);
+}
+.btn-download-pdf:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232,0,30,0.35);
 }
 
 /* ── CONTACT ── */
@@ -997,6 +1295,9 @@
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .work-preview-grid { grid-template-columns: repeat(2, 1fr); }
+  .internship-content { grid-template-columns: 1fr; gap: 1.5rem; }
+  .internship-divider { display: none; }
+  .skill-categories { grid-template-columns: 1fr; gap: 3rem; }
 }
 @media (max-width: 768px) {
   .about-grid,
