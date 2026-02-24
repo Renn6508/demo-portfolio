@@ -956,12 +956,33 @@ function Gallery() {
 }
 
 // ─────────────────────────────────────────────
-// CONTACT  — MagneticButton (React Bits)
+// CONTACT  — Personal Info Cards
 // ─────────────────────────────────────────────
 function Contact() {
   const secRef   = useRef(null)
   const leftRef  = useRef(null)
   const rightRef = useRef(null)
+
+  const CONTACT_INFO = [
+    {
+      icon: '📍',
+      label: 'ALAMAT',
+      value: 'Jl. Contoh Alamat No. 123, Kota Anda, Provinsi, Indonesia',
+      href: null,
+    },
+    {
+      icon: '📞',
+      label: 'TELEPON',
+      value: '+62 812-XXXX-XXXX',
+      href: 'tel:+62812XXXXXXXX',
+    },
+    {
+      icon: '📧',
+      label: 'EMAIL',
+      value: 'email@example.com',
+      href: 'mailto:email@example.com',
+    },
+  ]
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -970,9 +991,9 @@ function Contact() {
         { y: 0, opacity: 1, duration: 0.9, stagger: 0.15, ease: 'power3.out',
           scrollTrigger: { trigger: leftRef.current, start: 'top 80%' } }
       )
-      gsap.fromTo(rightRef.current.children,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.3,
+      gsap.fromTo('.contact-info-card',
+        { y: 50, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
           scrollTrigger: { trigger: rightRef.current, start: 'top 80%' } }
       )
     }, secRef)
@@ -994,12 +1015,12 @@ function Contact() {
               duration={0.7}
             />
             <p className="contact-body">
-              Punya proyek yang menarik? Saya selalu terbuka untuk kesempatan baru
-              dan kolaborasi kreatif. Mari kita ciptakan sesuatu yang luar biasa bersama.
+              Saya adalah mahasiswa magang yang siap berkontribusi dan belajar.
+              Jangan ragu untuk menghubungi saya melalui informasi kontak berikut.
             </p>
             <MagneticButton className="btn-primary" strength={0.35}>
               <a
-                href="mailto:hello@yourname.dev"
+                href="mailto:email@example.com"
                 style={{ color: 'inherit', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
               >
                 Say Hello <span>→</span>
@@ -1007,27 +1028,25 @@ function Contact() {
             </MagneticButton>
           </div>
 
-          <form className="contact-form" ref={rightRef} onSubmit={(e) => e.preventDefault()}>
-            {[
-              { id: 'name',    type: 'text',  label: 'Your Name' },
-              { id: 'email',   type: 'email', label: 'Email Address' },
-              { id: 'subject', type: 'text',  label: 'Subject' },
-            ].map((f) => (
-              <div className="form-group" key={f.id}>
-                <input className="form-input" type={f.type} placeholder={f.label} id={f.id} />
-                <label className="form-label" htmlFor={f.id}>{f.label}</label>
-              </div>
+          <div className="contact-info" ref={rightRef}>
+            {CONTACT_INFO.map((info) => (
+              <SpotlightCard
+                key={info.label}
+                className="contact-info-card"
+                spotlightColor="rgba(232,0,30,0.12)"
+              >
+                <div className="contact-info-icon">{info.icon}</div>
+                <span className="contact-info-label">{info.label}</span>
+                {info.href ? (
+                  <a href={info.href} className="contact-info-value">
+                    {info.value}
+                  </a>
+                ) : (
+                  <p className="contact-info-value">{info.value}</p>
+                )}
+              </SpotlightCard>
             ))}
-            <div className="form-group">
-              <textarea className="form-textarea" placeholder="Message" id="message" rows={4} />
-              <label className="form-label" htmlFor="message">Your Message</label>
-            </div>
-            <MagneticButton className="btn-primary" strength={0.3} style={{ width: 'fit-content' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                Send Message <span>→</span>
-              </span>
-            </MagneticButton>
-          </form>
+          </div>
         </div>
       </div>
     </section>
@@ -1035,17 +1054,121 @@ function Contact() {
 }
 
 // ─────────────────────────────────────────────
-// FOOTER
+// FOOTER — Modern & Minimalist
 // ─────────────────────────────────────────────
 function Footer() {
+  const footerRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.footer-col',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: footerRef.current, start: 'top 90%' } }
+      )
+      gsap.fromTo('.footer-divider',
+        { scaleX: 0 },
+        { scaleX: 1, duration: 1.2, ease: 'power3.inOut',
+          scrollTrigger: { trigger: '.footer-divider', start: 'top 95%' } }
+      )
+    }, footerRef)
+    return () => ctx.revert()
+  }, [])
+
+  const scrollTo = (id) =>
+    gsap.to(window, { duration: 1.2, scrollTo: `#${id}`, ease: 'power3.inOut' })
+
   return (
-    <footer className="footer">
-      <div className="footer-logo">YOUR<span>.</span>NAME</div>
-      <div className="footer-copy">© 2025 — All rights reserved</div>
-      <div className="footer-socials">
-        {['GitHub', 'LinkedIn', 'Dribbble', 'Twitter'].map((s) => (
-          <a href="#" key={s}>{s}</a>
-        ))}
+    <footer className="footer" ref={footerRef}>
+      <div className="container">
+        {/* ── Top Grid ── */}
+        <div className="footer-grid">
+          {/* Brand Column */}
+          <div className="footer-col footer-brand-col">
+            <div className="footer-logo">YOUR<span>.</span>NAME</div>
+            <p className="footer-tagline">
+              Full Stack Developer &amp; Creative Coder — crafting digital experiences that push boundaries.
+            </p>
+            <div className="footer-status">
+              <span className="footer-status-dot" />
+              <span className="footer-status-text">Available for Internship</span>
+            </div>
+          </div>
+
+          {/* Navigation Column */}
+          <div className="footer-col">
+            <h4 className="footer-col-title">NAVIGATION</h4>
+            <ul className="footer-nav-list">
+              {[
+                { label: 'About', id: 'about' },
+                { label: 'Skills', id: 'skills' },
+                { label: 'Projects', id: 'work' },
+                { label: 'Certificates', id: 'hero' },
+                { label: 'Contact', id: 'contact' },
+              ].map((link) => (
+                <li key={link.id}>
+                  <a
+                    href={`#${link.id}`}
+                    className="footer-nav-link"
+                    onClick={(e) => { e.preventDefault(); scrollTo(link.id) }}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Socials Column */}
+          <div className="footer-col">
+            <h4 className="footer-col-title">CONNECT</h4>
+            <ul className="footer-nav-list">
+              {[
+                { label: 'GitHub', url: '#' },
+                { label: 'LinkedIn', url: '#' },
+                { label: 'Instagram', url: '#' },
+                { label: 'Twitter / X', url: '#' },
+              ].map((s) => (
+                <li key={s.label}>
+                  <a href={s.url} className="footer-nav-link" target="_blank" rel="noopener noreferrer">
+                    {s.label}
+                    <span className="footer-link-arrow">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Column */}
+          <div className="footer-col">
+            <h4 className="footer-col-title">GET IN TOUCH</h4>
+            <ul className="footer-nav-list footer-contact-list">
+              <li>
+                <span className="footer-contact-label">Email</span>
+                <a href="mailto:email@example.com" className="footer-nav-link">email@example.com</a>
+              </li>
+              <li>
+                <span className="footer-contact-label">Phone</span>
+                <a href="tel:+62812XXXXXXXX" className="footer-nav-link">+62 812-XXXX-XXXX</a>
+              </li>
+              <li>
+                <span className="footer-contact-label">Location</span>
+                <span className="footer-nav-link footer-location">Kota Anda, Indonesia</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* ── Divider ── */}
+        <div className="footer-divider" />
+
+        {/* ── Bottom Bar ── */}
+        <div className="footer-bottom">
+          <div className="footer-copy">© {new Date().getFullYear()} YOUR<span>.</span>NAME — All rights reserved</div>
+          <div className="footer-credits">
+            Designed &amp; Built with <span className="footer-heart">♥</span>
+          </div>
+        </div>
       </div>
     </footer>
   )
