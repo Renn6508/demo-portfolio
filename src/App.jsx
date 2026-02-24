@@ -525,7 +525,7 @@ function About() {
               />
             </TiltedCard>
             <div className="about-image-badge">
-              <span>3+</span>
+              <span>2+</span>
               <small>Years Exp</small>
             </div>
           </div>
@@ -997,10 +997,10 @@ function Contact() {
 
   const COLLABORATORS = [
     {
-      name: 'Collaborator 1',
-      role: 'UI/UX Designer',
+      name: 'Amirah Syauqillah Harsono',
+      role: 'Network Engineer & SysAdmin',
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&q=80',
-      url: 'https://example.com/collaborator1',
+      url: 'https://amirah-portfolio.vercel.app/',
     },
     {
       name: 'Collaborator 2',
