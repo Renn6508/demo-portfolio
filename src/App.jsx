@@ -870,18 +870,50 @@ function ParallaxBand() {
 // GALLERY
 // ─────────────────────────────────────────────
 function CertificateModal({ certificate, onClose }) {
-  const modalRef = useRef(null)
+  const overlayRef = useRef(null)
+  const panelRef = useRef(null)
+  const isClosing = useRef(false)
+
+  // GSAP open animation
+  useEffect(() => {
+    const tl = gsap.timeline()
+    tl.fromTo(overlayRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.4, ease: 'power2.out' }
+    )
+    tl.fromTo(panelRef.current,
+      { y: 80, opacity: 0, scale: 0.92 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.4)' },
+      '-=0.2'
+    )
+    return () => tl.kill()
+  }, [])
+
+  // GSAP close animation
+  const handleClose = () => {
+    if (isClosing.current) return
+    isClosing.current = true
+
+    const tl = gsap.timeline({ onComplete: onClose })
+    tl.to(panelRef.current, {
+      y: 60, opacity: 0, scale: 0.9,
+      duration: 0.35, ease: 'power3.in',
+    })
+    tl.to(overlayRef.current, {
+      opacity: 0, duration: 0.25, ease: 'power2.in',
+    }, '-=0.15')
+  }
 
   useEffect(() => {
-    const handleEsc = (e) => e.key === 'Escape' && onClose()
+    const handleEsc = (e) => e.key === 'Escape' && handleClose()
     window.addEventListener('keydown', handleEsc)
     return () => window.removeEventListener('keydown', handleEsc)
-  }, [onClose])
+  }, [])
 
   return (
-    <div className="modal-overlay" onClick={onClose} ref={modalRef}>
-      <div className="certificate-modal-panel" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
+    <div className="modal-overlay" onClick={handleClose} ref={overlayRef} style={{ opacity: 0 }}>
+      <div className="certificate-modal-panel" onClick={(e) => e.stopPropagation()} ref={panelRef} style={{ opacity: 0 }}>
+        <button className="modal-close" onClick={handleClose}>✕</button>
 
         <div className="certificate-modal-image">
           <img src={certificate.image} alt={certificate.title} />

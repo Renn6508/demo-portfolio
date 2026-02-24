@@ -730,15 +730,15 @@
 
 /* ── GALLERY ── */
 .gallery-section {
-  padding: 8rem 0 0;
+  padding: 5rem 0 0;
   background: var(--black);
   overflow: hidden;
 }
-.gallery-title-wrap { padding: 0 3rem 4rem; }
+.gallery-title-wrap { padding: 0 3rem 2.5rem; }
 .h-scroll-track {
   display: flex;
   gap: 1.5rem;
-  padding: 0 3rem 5rem;
+  padding: 0 3rem 3rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -809,8 +809,8 @@
   scrollbar-color: var(--red) transparent;
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 8px;
-  animation: modalSlideUp 0.4s ease-out;
 }
+
 @keyframes modalSlideUp {
   from {
     opacity: 0;
