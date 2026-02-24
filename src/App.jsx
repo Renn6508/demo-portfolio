@@ -417,7 +417,7 @@ function Hero() {
         />
         <h1 className="hero-title">
           <SplitText
-            text="EXPLORE"
+            text="WILHELMINA"
             triggerOnScroll={false}
             delay={2.6}
             stagger={0.06}
@@ -427,7 +427,7 @@ function Hero() {
           />
           <span className="hero-title-alt">
             <SplitText
-              text="CREATE"
+              text="LORENZIA.W"
               triggerOnScroll={false}
               delay={2.9}
               stagger={0.06}
