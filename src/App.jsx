@@ -963,24 +963,24 @@ function Contact() {
   const leftRef  = useRef(null)
   const rightRef = useRef(null)
 
-  const CONTACT_INFO = [
+  const COLLABORATORS = [
     {
-      icon: '📍',
-      label: 'ALAMAT',
-      value: 'Jl. Contoh Alamat No. 123, Kota Anda, Provinsi, Indonesia',
-      href: null,
+      name: 'Collaborator 1',
+      role: 'UI/UX Designer',
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&q=80',
+      url: 'https://example.com/collaborator1',
     },
     {
-      icon: '📞',
-      label: 'TELEPON',
-      value: '+62 812-XXXX-XXXX',
-      href: 'tel:+62812XXXXXXXX',
+      name: 'Collaborator 2',
+      role: 'Backend Developer',
+      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=80',
+      url: 'https://example.com/collaborator2',
     },
     {
-      icon: '📧',
-      label: 'EMAIL',
-      value: 'email@example.com',
-      href: 'mailto:email@example.com',
+      name: 'Collaborator 3',
+      role: 'Mobile Developer',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80',
+      url: 'https://example.com/collaborator3',
     },
   ]
 
@@ -991,7 +991,7 @@ function Contact() {
         { y: 0, opacity: 1, duration: 0.9, stagger: 0.15, ease: 'power3.out',
           scrollTrigger: { trigger: leftRef.current, start: 'top 80%' } }
       )
-      gsap.fromTo('.contact-info-card',
+      gsap.fromTo('.collab-card',
         { y: 50, opacity: 0, scale: 0.95 },
         { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
           scrollTrigger: { trigger: rightRef.current, start: 'top 80%' } }
@@ -1028,24 +1028,37 @@ function Contact() {
             </MagneticButton>
           </div>
 
-          <div className="contact-info" ref={rightRef}>
-            {CONTACT_INFO.map((info) => (
-              <SpotlightCard
-                key={info.label}
-                className="contact-info-card"
-                spotlightColor="rgba(232,0,30,0.12)"
-              >
-                <div className="contact-info-icon">{info.icon}</div>
-                <span className="contact-info-label">{info.label}</span>
-                {info.href ? (
-                  <a href={info.href} className="contact-info-value">
-                    {info.value}
-                  </a>
-                ) : (
-                  <p className="contact-info-value">{info.value}</p>
-                )}
-              </SpotlightCard>
-            ))}
+          <div className="collab-section" ref={rightRef}>
+            <div className="collab-header">
+              <span className="collab-label">PAST COLLABORATIONS</span>
+              <p className="collab-desc">Rekan-rekan hebat yang pernah berkolaborasi dengan saya.</p>
+            </div>
+            <div className="collab-list">
+              {COLLABORATORS.map((c) => (
+                <a
+                  key={c.name}
+                  href={c.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="collab-card-link"
+                >
+                  <SpotlightCard className="collab-card" spotlightColor="rgba(232,0,30,0.12)">
+                    <div className="collab-avatar-wrap">
+                      <img src={c.avatar} alt={c.name} className="collab-avatar" />
+                      <div className="collab-avatar-ring" />
+                    </div>
+                    <div className="collab-info">
+                      <span className="collab-name">{c.name}</span>
+                      <span className="collab-role">{c.role}</span>
+                    </div>
+                    <div className="collab-visit">
+                      <span>Visit</span>
+                      <span className="collab-arrow">↗</span>
+                    </div>
+                  </SpotlightCard>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>

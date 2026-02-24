@@ -971,55 +971,122 @@
   transition: transform 0.4s ease;
 }
 .btn-primary:hover::before { transform: translateX(120%) skewX(-15deg); }
-.contact-info {
+/* ── Collaborator Cards ── */
+.collab-section {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
-.contact-info-card {
-  background: var(--mid);
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 2rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+.collab-header {
+  margin-bottom: 0.5rem;
 }
-.contact-info-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(232,0,30,0.15);
-  border-color: rgba(232,0,30,0.25);
-}
-.contact-info-icon {
-  font-size: 1.6rem;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(232,0,30,0.1);
-  border: 1px solid rgba(232,0,30,0.2);
-  border-radius: 8px;
-  margin-bottom: 0.3rem;
-}
-.contact-info-label {
+.collab-label {
   font-family: var(--font-cond);
   font-size: 0.6rem;
+  font-weight: 700;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 700;
+  color: var(--red);
+  display: block;
+  margin-bottom: 0.6rem;
 }
-.contact-info-value {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: var(--white);
+.collab-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
   line-height: 1.6;
+}
+.collab-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.collab-card-link {
   text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.collab-card {
+  background: var(--mid);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 1.4rem 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.collab-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 35px rgba(232,0,30,0.12);
+  border-color: rgba(232,0,30,0.2);
+}
+.collab-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.collab-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: grayscale(30%);
+  transition: filter 0.4s;
+}
+.collab-card:hover .collab-avatar {
+  filter: grayscale(0);
+}
+.collab-avatar-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: border-color 0.4s;
+}
+.collab-card:hover .collab-avatar-ring {
+  border-color: var(--red);
+}
+.collab-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+  min-width: 0;
+}
+.collab-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  line-height: 1.2;
+}
+.collab-role {
+  font-family: var(--font-cond);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.collab-visit {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-cond);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
   transition: color 0.3s;
 }
-a.contact-info-value:hover {
+.collab-card:hover .collab-visit {
   color: var(--red);
+}
+.collab-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s;
+}
+.collab-card:hover .collab-arrow {
+  transform: translate(3px, -3px);
 }
 
 /* ── FOOTER — Modern & Minimalist ── */
@@ -1095,10 +1162,10 @@ a.contact-info-value:hover {
   color: var(--red);
 }
 .footer-col-title {
-  font-family: var(--font-cond);
-  font-size: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--white);
   margin-bottom: 1.8rem;
