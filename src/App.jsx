@@ -1197,18 +1197,18 @@ function Footer() {
             <ul className="footer-nav-list footer-contact-list">
               <li>
                 <span className="footer-contact-label">Email</span>
-                <a href="mailto:email@example.com" className="footer-nav-link">email@example.com</a>
+                <a href="mailto:email@example.com" className="footer-nav-link">wilhelmina6508@gmail.com</a>
               </li>
               <li>
                 <span className="footer-contact-label">Phone</span>
-                <a href="tel:+62812XXXXXXXX" className="footer-nav-link">+62 812-XXXX-XXXX</a>
+                <a href="tel:+62" className="footer-nav-link">+62 812-4212-4114</a>
               </li>
               <li>
                 <span className="footer-contact-label">Location</span>
-                <span className="footer-nav-link footer-location">Kota Anda, Indonesia</span>
+                <span className="footer-nav-link footer-location">Lumajang, Jawa Timur, Indonesia</span>
               </li>
             </ul>
-          </div>
+          </div>  
         </div>
 
         {/* ── Divider ── */}
