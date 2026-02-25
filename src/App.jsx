@@ -372,6 +372,13 @@ function Navbar() {
           </li>
         ))}
       </ul>
+      <a
+        href="/cv.pdf"
+        download="CV_YourName.pdf"
+        className="nav-cv-btn"
+      >
+        Download CV ↓
+      </a>
     </nav>
   )
 }
