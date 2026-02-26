@@ -120,7 +120,7 @@ const PROJECTS = [
   },
   {
     num: '05',
-    title: 'Business Portfolio Rendy Atmawiaya',
+    title: 'Business Portfolio',
     tags: ['Next JS', 'Tailwind CSS', 'HTML', 'TypeScript', 'React'],
     year: '2025',
     role: 'Fullstack Dev',
