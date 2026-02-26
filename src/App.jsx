@@ -46,7 +46,7 @@ const PROJECTS = [
   {
     num: '02',
     title: 'Profile Web Company Seblak ',
-    tags: ['Next.js', 'D3.js', 'PostgreSQL'],
+    tags: ['HTML', 'CSS Tailwind', 'Next JS', 'Node JS',],
     year: 'Jan 22, 2025',
     role: 'Frontend Dev',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
