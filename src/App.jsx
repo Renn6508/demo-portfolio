@@ -80,7 +80,7 @@ const PROJECTS = [
     details: [
       { label: 'Client',   value: 'Krunchi Melt' },
       { label: 'Year',     value: '2025' },
-      { label: 'Role',     value: 'Mobile Developer' },
+      { label: 'Role',     value: 'Frontend Developer' },
       { label: 'Duration', value: '4 Months' },
     ],
     features: [
