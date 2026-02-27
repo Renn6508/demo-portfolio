@@ -373,8 +373,8 @@ function Navbar() {
         ))}
       </ul>
       <a
-        href="/cv.pdf"
-        download="CV_YourName.pdf"
+        href="src/assets/CV PKL 2026 Wilhelmina Lorenzia Wijaya.pdf"
+        download="CV_PKL_2026 _WilhelminaLorenziaWijaya.pdf"
         className="nav-cv-btn"
       >
         Download CV ↓
