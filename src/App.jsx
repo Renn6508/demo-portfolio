@@ -541,13 +541,13 @@ function About() {
             <SplitText text="About Me" className="section-label" tag="span" stagger={0.04} y={15} />
             <SplitText text="DARE TO BE BOLD" className="section-title" tag="h2" stagger={0.04} y={50} duration={0.7} />
             <BlurText
-              text="Saya adalah seorang Full Stack Developer yang bersemangat menciptakan pengalaman digital yang luar biasa. Dengan perpaduan antara desain yang kuat dan kode yang bersih, saya membangun produk yang tidak hanya berfungsi sempurna — tetapi juga meninggalkan kesan mendalam."
+              text="Hello! I'm Wilhelmina Lorenzia Wijaya, a Software Engineering (RPL) student at SMKN 1 Lumajang Vocational High School. I'm a disciplined, highly dedicated individual with a keen interest in software development. For me, coding isn't just a task, but a way to create solutions. I'm used to working neatly, paying attention to details, and always eager to learn new technologies."
               className="about-body"
               stagger={0.04}
               tag="p"
             />
             <BlurText
-              text="Terinspirasi oleh alam yang tak terbatas, saya percaya bahwa tidak ada tantangan yang terlalu besar untuk ditaklukkan."
+              text="As a Software Engineering student, I have a strong foundation in programming logic and application development. I am a fast learner and highly value discipline and responsibility. Through various school assignments and projects, I have learned to consistently complete work on time. I am ready to bring my positive energy and strong work ethic to a professional environment."
               className="about-body"
               stagger={0.04}
               delay={0.1}
@@ -555,8 +555,8 @@ function About() {
             />
             <div className="about-stats" ref={statsRef}>
               {[
-                { val: 20, suffix: '+', label: 'Projects' },
-                { val: 3,  suffix: '+', label: 'Years Exp' },
+                { val: 11, suffix: '+', label: 'Projects' },
+                { val: 2,  suffix: '+', label: 'Years Exp' },
                 { val: 100, suffix: '%', label: 'Satisfaction' },
               ].map((s) => (
                 <div className="stat" key={s.label}>
