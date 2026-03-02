@@ -318,7 +318,7 @@ function Loader({ onDone }) {
     <div className="loader" ref={ref}>
       <div className="loader-pct">{pct.toString().padStart(3, '0')}</div>
       <div className="loader-bar-wrap"><div className="loader-bar" /></div>
-      <div className="loader-text">Loading Experience</div>
+      <div className="loader-text">Loading Portfolio</div>
     </div>
   )
 }
@@ -1176,10 +1176,10 @@ function Footer() {
             <h4 className="footer-col-title">CONNECT</h4>
             <ul className="footer-nav-list">
               {[
-                { label: 'GitHub', url: '#' },
-                { label: 'LinkedIn', url: '#' },
-                { label: 'Instagram', url: '#' },
-                { label: 'Twitter / X', url: '#' },
+                { label: 'GitHub', url: 'https://github.com/Renn6508' },
+                { label: 'LinkedIn', url: 'https://www.linkedin.com/in/wilhelmina-lorenzia-wijaya-97045b3a9/' },
+                { label: 'Instagram', url: 'https://www.instagram.com/ren_eyebqgs/' },
+                { label: 'Twitter / X', url: 'https://x.com/ren_atos_person' },
               ].map((s) => (
                 <li key={s.label}>
                   <a href={s.url} className="footer-nav-link" target="_blank" rel="noopener noreferrer">
