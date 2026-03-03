@@ -527,7 +527,7 @@ function About() {
             <TiltedCard maxTilt={8} scale={1.02}>
               <img
                 className="about-image"
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80"
+                src="https://i.pinimg.com/736x/49/7d/36/497d366b9d8f08b07bd5bb582ba4c35d.jpg"
                 alt="Profile"
               />
             </TiltedCard>
