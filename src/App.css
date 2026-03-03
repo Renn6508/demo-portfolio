@@ -798,6 +798,9 @@
 }
 
 /* ── Certificate Modal ── */
+.modal-overlay:has(.certificate-modal-panel) {
+  align-items: center;
+}
 .certificate-modal-panel {
   position: relative;
   width: 100%;

@@ -195,12 +195,12 @@ const GALLERY_IMGS = [
 const CERTIFICATES = [
   {
     id: 1,
-    title: 'React Developer Certification',
-    issuer: 'Udemy',
-    date: '2024',
+    title: 'Program Entrepreneur Vokasi Kreatif dan Terpadu (PERVEKT)',
+    issuer: 'Dinas Pendidikan Provinsi Jawa Timur dengan Institut Teknologi Sepuluh Nopember',
+    date: '2025',
     image: 'https://images.unsplash.com/photo-1633356122544-f134324ef6e0?w=600&q=70',
     description: 'Complete React.js course covering hooks, state management, and advanced patterns.',
-    pdfUrl: '#',
+    pdfUrl: 'src/assets/Sertifikat_PERVEKT.pdf',
   },
   {
     id: 2,
@@ -937,7 +937,11 @@ function CertificateModal({ certificate, onClose }) {
           <p className="certificate-modal-description">{certificate.description}</p>
 
           <div className="certificate-modal-actions">
-            <a href={certificate.pdfUrl} className="btn-download-pdf" download>
+            <a
+              href={certificate.pdfUrl}
+              download={`${certificate.title.replace(/\s+/g, '_')}.pdf`}
+              className="btn-download-pdf"
+            >
               <span>📥 Download Certificate</span>
             </a>
           </div>
