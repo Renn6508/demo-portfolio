@@ -861,13 +861,13 @@ function ParallaxBand() {
       <div className="parallax-bg" ref={bgRef} />
       <div className="parallax-content">
         <BlurText
-          text='"The best views come after the hardest climbs"'
+          text='"Do you see a man skilled in his work? He will stand before kings."'
           className="parallax-quote"
           stagger={0.06}
           duration={0.8}
           tag="h2"
         />
-        <SplitText text="· Philosophy ·" className="parallax-source" tag="p" stagger={0.05} y={20} />
+        <SplitText text="· Proverbs 22:29 ·" className="parallax-source" tag="p" stagger={0.05} y={20} />
       </div>
     </div>
   )
