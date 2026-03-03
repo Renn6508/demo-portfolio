@@ -1137,7 +1137,7 @@ function Footer() {
         <div className="footer-grid">
           {/* Brand Column */}
           <div className="footer-col footer-brand-col">
-            <div className="footer-logo">YOUR<span>.</span>NAME</div>
+            <div className="footer-logo">WILHELMINA<span>.</span>PORTFOLIO</div>
             <p className="footer-tagline">
               Full Stack Developer &amp; Creative Coder — crafting digital experiences that push boundaries.
             </p>
