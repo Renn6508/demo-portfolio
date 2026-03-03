@@ -24,7 +24,7 @@ const PROJECTS = [
     tags: ['HTML', 'Javascript', 'CSS'],
     year: 'Nov 30, 2025',
     role: 'Front End Developer',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&q=80',
+    image: 'src/assets/projects/barangku.png',
     description:
       'Platform e-commerce lengkap dengan fitur cart, payment gateway Midtrans, manajemen produk, dan dashboard admin real-time. Dibangun dengan arsitektur microservice untuk skalabilitas tinggi.',
     details: [
@@ -49,7 +49,7 @@ const PROJECTS = [
     tags: ['HTML', 'Tailwind CSS', 'Next JS', 'Node JS',],
     year: 'Jan 22, 2025',
     role: 'Frontend Dev',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
+    image: 'src/assets/projects/seblak_sultan.png',
     description:
       'Dashboard visualisasi data interaktif untuk perusahaan logistik. Menampilkan data pengiriman real-time, heatmap rute, dan prediksi ML untuk optimasi armada.',
     details: [
@@ -74,7 +74,7 @@ const PROJECTS = [
     tags: ['React Native', 'Firebase'],
     year: 'Aug 29, 2025',
     role: 'Frontend Developer',
-    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&q=80',
+    image: 'src/assets/projects/krunchimelt.png',
     description:
       'Aplikasi mobile banking lengkap dengan fitur transfer, tagihan, dan investasi. Menggunakan biometric authentication dan enkripsi end-to-end untuk keamanan maksimal.',
     details: [
@@ -124,7 +124,7 @@ const PROJECTS = [
     tags: ['Next JS', 'Tailwind CSS', 'HTML', 'TypeScript', 'React'],
     year: '2025',
     role: 'Fullstack Dev',
-    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&q=80',
+    image: 'src/assets/projects/rendyatmawijaya.png',
     description:
       'Backend scalable untuk platform sosial media dengan 50K+ pengguna aktif. GraphQL subscriptions, Redis caching, dan deployment AWS ECS untuk performa maksimal.',
     details: [
@@ -198,8 +198,8 @@ const CERTIFICATES = [
     title: 'Program Entrepreneur Vokasi Kreatif dan Terpadu (PERVEKT)',
     issuer: 'Dinas Pendidikan Provinsi Jawa Timur dengan Institut Teknologi Sepuluh Nopember',
     date: '2025',
-    image: 'https://images.unsplash.com/photo-1633356122544-f134324ef6e0?w=600&q=70',
-    description: 'Complete React.js course covering hooks, state management, and advanced patterns.',
+    image: 'src/assets/certificate/pervekt.png',
+    description: 'Pelatihan Keterampilan Kewirausahaan SMK.',
     pdfUrl: 'src/assets/Sertifikat_PERVEKT.pdf',
   },
   {
