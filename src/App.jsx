@@ -1447,7 +1447,7 @@ function Contact() {
       url: 'https://amirah-portfolio.vercel.app/',
     },
     {
-      name: 'Leo Satria Anugrah',
+      name: 'Collaborator 2',
       role: 'Fullstack Developer',
       avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=80',
       url: 'https://leosatriaa.vercel.app/',
