@@ -364,7 +364,7 @@ function Navbar() {
         YOUR<span>.</span>NAME
       </div>
       <ul className="nav-links">
-        {['about', 'skills', 'work', 'contact'].map((s) => (
+        {['about', 'skills', 'dashboard', 'work', 'contact'].map((s) => (
           <li key={s}>
             <a href={`#${s}`} onClick={(e) => { e.preventDefault(); scrollTo(s) }}>
               {s}
@@ -721,6 +721,439 @@ function Skills() {
         {/* Skill Proficiency Bars */}
         <div className="skills-proficiency-wrapper">
           <SkillProficiency />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─────────────────────────────────────────────
+// DASHBOARD — GitHub & WakaTime Stats
+// ─────────────────────────────────────────────
+const GITHUB_USERNAME = 'Renn6508'
+const WAKATIME_USERNAME = 'Renn6508'
+
+function Dashboard() {
+  const secRef = useRef(null)
+  const [ghStats, setGhStats] = useState({
+    publicRepos: 0,
+    followers: 0,
+    following: 0,
+    totalStars: 0,
+    topLanguages: [],
+    recentRepos: [],
+    loading: true,
+    error: false,
+  })
+  const [wakaStats, setWakaStats] = useState({
+    totalCodingTime: null,
+    languages: [],
+    loading: true,
+    error: false,
+  })
+
+  // Fetch GitHub stats
+  useEffect(() => {
+    const fetchGithubStats = async () => {
+      try {
+        const [userRes, reposRes] = await Promise.all([
+          fetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
+          fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`),
+        ])
+
+        if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API error')
+
+        const userData = await userRes.json()
+        const reposData = await reposRes.json()
+
+        // Calculate total stars
+        const totalStars = reposData.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0)
+
+        // Get top languages
+        const langMap = {}
+        reposData.forEach((repo) => {
+          if (repo.language) {
+            langMap[repo.language] = (langMap[repo.language] || 0) + 1
+          }
+        })
+        const topLanguages = Object.entries(langMap)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 6)
+          .map(([name, count]) => ({
+            name,
+            percentage: Math.round((count / reposData.filter(r => r.language).length) * 100),
+          }))
+
+        // Get recent repos
+        const recentRepos = reposData
+          .filter((r) => !r.fork)
+          .slice(0, 4)
+          .map((r) => ({
+            name: r.name,
+            description: r.description || 'No description',
+            stars: r.stargazers_count,
+            forks: r.forks_count,
+            language: r.language,
+            url: r.html_url,
+            updatedAt: new Date(r.updated_at).toLocaleDateString('en-US', {
+              month: 'short', day: 'numeric', year: 'numeric',
+            }),
+          }))
+
+        setGhStats({
+          publicRepos: userData.public_repos,
+          followers: userData.followers,
+          following: userData.following,
+          totalStars,
+          topLanguages,
+          recentRepos,
+          loading: false,
+          error: false,
+        })
+      } catch {
+        setGhStats((prev) => ({ ...prev, loading: false, error: true }))
+      }
+    }
+
+    fetchGithubStats()
+  }, [])
+
+  // Fetch WakaTime stats
+  useEffect(() => {
+    const fetchWakaStats = async () => {
+      try {
+        const res = await fetch(`https://wakatime.com/api/v1/users/${WAKATIME_USERNAME}/stats/last_7_days`)
+        if (!res.ok) throw new Error('WakaTime API error')
+        const data = await res.json()
+
+        setWakaStats({
+          totalCodingTime: data.data?.human_readable_total || null,
+          languages: (data.data?.languages || []).slice(0, 6).map((l) => ({
+            name: l.name,
+            percentage: Math.round(l.percent),
+            hours: l.text,
+          })),
+          loading: false,
+          error: false,
+        })
+      } catch {
+        // WakaTime API may require auth — fallback to embed chart
+        setWakaStats((prev) => ({ ...prev, loading: false, error: true }))
+      }
+    }
+
+    fetchWakaStats()
+  }, [])
+
+  // GSAP animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo('.dash-stat-card',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dash-stats-grid', start: 'top 80%' } }
+      )
+      gsap.fromTo('.dash-chart-section',
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dash-chart-section', start: 'top 85%' } }
+      )
+      gsap.fromTo('.dash-repo-card',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dash-repos-grid', start: 'top 85%' } }
+      )
+      gsap.fromTo('.dash-lang-bar-fill',
+        { scaleX: 0 },
+        { scaleX: 1, duration: 1.2, stagger: 0.06, ease: 'power2.out',
+          scrollTrigger: { trigger: '.dash-languages-section', start: 'top 80%' } }
+      )
+      gsap.fromTo('.dash-waka-section',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: '.dash-waka-section', start: 'top 85%' } }
+      )
+    }, secRef)
+    return () => ctx.revert()
+  }, [ghStats.loading, wakaStats.loading])
+
+  const LANG_COLORS = {
+    JavaScript: '#F7DF1E',
+    TypeScript: '#3178C6',
+    HTML: '#E34F26',
+    CSS: '#1572B6',
+    Python: '#3776AB',
+    PHP: '#777BB4',
+    Dart: '#0175C2',
+    Java: '#ED8B00',
+    Lua: '#000080',
+    Rust: '#DEA584',
+    R: '#276DC3',
+    Vue: '#4FC08D',
+    SCSS: '#CC6699',
+    Shell: '#89E051',
+  }
+
+  return (
+    <section className="dashboard" id="dashboard" ref={secRef}>
+      <div className="container">
+        {/* ── Section Header ── */}
+        <div className="dash-header">
+          <div>
+            <SplitText text="Coding Activity" className="section-label" tag="span" stagger={0.04} y={15} />
+            <SplitText text="DEVELOPER DASHBOARD" className="section-title" tag="h2" stagger={0.04} y={50} duration={0.7} />
+          </div>
+          <p className="dash-subtitle">
+            Real-time statistics pulled from GitHub & WakaTime APIs
+          </p>
+        </div>
+
+        {/* ── Stats Overview Cards ── */}
+        <div className="dash-stats-grid">
+          {[
+            {
+              icon: '📦',
+              value: ghStats.loading ? '...' : ghStats.publicRepos,
+              label: 'Public Repos',
+              color: 'rgba(232,0,30,0.15)',
+            },
+            {
+              icon: '⭐',
+              value: ghStats.loading ? '...' : ghStats.totalStars,
+              label: 'Total Stars',
+              color: 'rgba(247,223,30,0.12)',
+            },
+            {
+              icon: '👥',
+              value: ghStats.loading ? '...' : ghStats.followers,
+              label: 'Followers',
+              color: 'rgba(79,195,247,0.12)',
+            },
+            {
+              icon: '🔗',
+              value: ghStats.loading ? '...' : ghStats.following,
+              label: 'Following',
+              color: 'rgba(129,199,132,0.12)',
+            },
+          ].map((stat) => (
+            <div className="dash-stat-card" key={stat.label}>
+              <SpotlightCard className="dash-stat-inner" spotlightColor={stat.color}>
+                <span className="dash-stat-icon">{stat.icon}</span>
+                <div className="dash-stat-value">{stat.value}</div>
+                <div className="dash-stat-label">{stat.label}</div>
+              </SpotlightCard>
+            </div>
+          ))}
+        </div>
+
+        {/* ── GitHub Contribution Chart ── */}
+        <div className="dash-chart-section">
+          <div className="dash-section-label">
+            <span className="dash-label-dot" />
+            <span>GITHUB CONTRIBUTIONS</span>
+          </div>
+          <SpotlightCard className="dash-chart-card" spotlightColor="rgba(232,0,30,0.08)">
+            <div className="dash-chart-inner">
+              <img
+                src={`https://ghchart.rshah.org/E8001E/${GITHUB_USERNAME}`}
+                alt="GitHub Contribution Chart"
+                className="dash-contrib-chart"
+                loading="lazy"
+              />
+            </div>
+            <div className="dash-chart-footer">
+              <span className="dash-chart-legend">
+                <span className="dash-legend-box" style={{ background: 'rgba(232,0,30,0.2)' }} /> Less
+              </span>
+              <span className="dash-chart-legend">
+                <span className="dash-legend-box" style={{ background: 'rgba(232,0,30,0.5)' }} /> Medium
+              </span>
+              <span className="dash-chart-legend">
+                <span className="dash-legend-box" style={{ background: '#E8001E' }} /> More
+              </span>
+              <a
+                href={`https://github.com/${GITHUB_USERNAME}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="dash-chart-link"
+              >
+                View on GitHub <span>↗</span>
+              </a>
+            </div>
+          </SpotlightCard>
+        </div>
+
+        {/* ── Two Column: Languages + WakaTime ── */}
+        <div className="dash-two-col">
+          {/* GitHub Top Languages */}
+          <div className="dash-languages-section">
+            <div className="dash-section-label">
+              <span className="dash-label-dot" />
+              <span>TOP LANGUAGES</span>
+            </div>
+            <SpotlightCard className="dash-lang-card" spotlightColor="rgba(232,0,30,0.08)">
+              {ghStats.loading ? (
+                <div className="dash-loading">Loading...</div>
+              ) : ghStats.error ? (
+                <div className="dash-loading">Unable to load language data</div>
+              ) : (
+                <div className="dash-lang-bars">
+                  {ghStats.topLanguages.map((lang) => (
+                    <div className="dash-lang-item" key={lang.name}>
+                      <div className="dash-lang-header">
+                        <span className="dash-lang-name">
+                          <span
+                            className="dash-lang-dot"
+                            style={{ background: LANG_COLORS[lang.name] || '#8A9BAD' }}
+                          />
+                          {lang.name}
+                        </span>
+                        <span className="dash-lang-pct">{lang.percentage}%</span>
+                      </div>
+                      <div className="dash-lang-bar-track">
+                        <div
+                          className="dash-lang-bar-fill"
+                          style={{
+                            '--progress': `${lang.percentage}%`,
+                            background: `linear-gradient(to right, ${LANG_COLORS[lang.name] || '#E8001E'}, ${LANG_COLORS[lang.name] || '#E8001E'}88)`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </SpotlightCard>
+          </div>
+
+          {/* WakaTime Coding Activity */}
+          <div className="dash-waka-section">
+            <div className="dash-section-label">
+              <span className="dash-label-dot" />
+              <span>WAKATIME CODING ACTIVITY</span>
+            </div>
+            <SpotlightCard className="dash-waka-card" spotlightColor="rgba(79,195,247,0.08)">
+              {wakaStats.loading ? (
+                <div className="dash-loading">Loading WakaTime data...</div>
+              ) : wakaStats.error ? (
+                <div className="dash-waka-embed">
+                  <div className="dash-waka-fallback">
+                    <div className="dash-waka-icon">⏱️</div>
+                    <h4 className="dash-waka-title">Coding Activity</h4>
+                    <p className="dash-waka-desc">
+                      Track my real-time coding activity and language breakdown on WakaTime.
+                    </p>
+                    <a
+                      href={`https://wakatime.com/@${WAKATIME_USERNAME}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="dash-waka-link"
+                    >
+                      View on WakaTime <span>↗</span>
+                    </a>
+                  </div>
+                  <div className="dash-waka-visual">
+                    <img
+                      src={`https://github-readme-stats.vercel.app/api/wakatime?username=${WAKATIME_USERNAME}&theme=transparent&hide_border=true&text_color=8A9BAD&title_color=E8001E&icon_color=E8001E&bg_color=00000000`}
+                      alt="WakaTime Stats"
+                      className="dash-waka-chart-img"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.style.display = 'none'
+                      }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="dash-waka-data">
+                  {wakaStats.totalCodingTime && (
+                    <div className="dash-waka-total">
+                      <span className="dash-waka-total-label">LAST 7 DAYS</span>
+                      <span className="dash-waka-total-value">{wakaStats.totalCodingTime}</span>
+                    </div>
+                  )}
+                  <div className="dash-waka-langs">
+                    {wakaStats.languages.map((lang) => (
+                      <div className="dash-lang-item" key={lang.name}>
+                        <div className="dash-lang-header">
+                          <span className="dash-lang-name">
+                            <span
+                              className="dash-lang-dot"
+                              style={{ background: LANG_COLORS[lang.name] || '#4FC3F7' }}
+                            />
+                            {lang.name}
+                          </span>
+                          <span className="dash-lang-pct">{lang.percentage}%</span>
+                        </div>
+                        <div className="dash-lang-bar-track">
+                          <div
+                            className="dash-lang-bar-fill"
+                            style={{
+                              '--progress': `${lang.percentage}%`,
+                              background: `linear-gradient(to right, ${LANG_COLORS[lang.name] || '#4FC3F7'}, ${LANG_COLORS[lang.name] || '#4FC3F7'}88)`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </SpotlightCard>
+          </div>
+        </div>
+
+        {/* ── Recent Repositories ── */}
+        <div className="dash-repos-section">
+          <div className="dash-section-label">
+            <span className="dash-label-dot" />
+            <span>RECENT REPOSITORIES</span>
+          </div>
+          <div className="dash-repos-grid">
+            {ghStats.loading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div className="dash-repo-card dash-repo-skeleton" key={i}>
+                  <SpotlightCard className="dash-repo-inner" spotlightColor="rgba(232,0,30,0.06)">
+                    <div className="dash-skeleton-line dash-skeleton-w60" />
+                    <div className="dash-skeleton-line dash-skeleton-w90" />
+                    <div className="dash-skeleton-line dash-skeleton-w40" />
+                  </SpotlightCard>
+                </div>
+              ))
+            ) : (
+              ghStats.recentRepos.map((repo) => (
+                <a
+                  key={repo.name}
+                  href={repo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="dash-repo-card"
+                >
+                  <SpotlightCard className="dash-repo-inner" spotlightColor="rgba(232,0,30,0.08)">
+                    <div className="dash-repo-header">
+                      <span className="dash-repo-icon">📁</span>
+                      <span className="dash-repo-name">{repo.name}</span>
+                    </div>
+                    <p className="dash-repo-desc">{repo.description}</p>
+                    <div className="dash-repo-meta">
+                      {repo.language && (
+                        <span className="dash-repo-lang">
+                          <span
+                            className="dash-lang-dot"
+                            style={{ background: LANG_COLORS[repo.language] || '#8A9BAD' }}
+                          />
+                          {repo.language}
+                        </span>
+                      )}
+                      <span className="dash-repo-stat">⭐ {repo.stars}</span>
+                      <span className="dash-repo-stat">🔱 {repo.forks}</span>
+                      <span className="dash-repo-date">{repo.updatedAt}</span>
+                    </div>
+                  </SpotlightCard>
+                </a>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </section>
@@ -1247,6 +1680,7 @@ export default function App() {
         <About />
         <InternshipAvailability />
         <Skills />
+        <Dashboard />
         <Work />
         <ParallaxBand />
         <Gallery />
