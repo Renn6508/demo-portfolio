@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <script>
+    const apiKey = 'waka_cec9d646-871e-4ab8-bfdb-bd26807d7302';
+    
+    function jsonp(url, callbackName) {
+      return new Promise((resolve) => {
+        const script = document.createElement('script');
+        
+        window[callbackName] = function(data) {
+          document.body.removeChild(script);
+          delete window[callbackName];
+          resolve(data);
+        };
+        
+        script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+        document.body.appendChild(script);
+      });
+    }
+
+    jsonp(`https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=${apiKey}`, 'wakaCallback')
+      .then(d => {
+          console.log(d);
+          document.body.innerHTML += "SUCCESS: " + JSON.stringify(d).substring(0, 100);
+      })
+      .catch(e => {
+          console.error(e);
+          document.body.innerHTML += "ERROR: " + e.message;
+      });
+  </script>
+</body>
+</html>

@@ -747,7 +747,9 @@ function Dashboard() {
   })
   const [wakaStats, setWakaStats] = useState({
     totalCodingTime: null,
+    dailyAverage: null,
     languages: [],
+    editors: [],
     loading: true,
     error: false,
   })
@@ -822,22 +824,39 @@ function Dashboard() {
   useEffect(() => {
     const fetchWakaStats = async () => {
       try {
-        const res = await fetch(`https://wakatime.com/api/v1/users/${WAKATIME_USERNAME}/stats/last_7_days`)
+        // Use local proxy (or Vercel serverless function in production) to bypass CORS safely
+        const res = await fetch('/api/wakatime')
         if (!res.ok) throw new Error('WakaTime API error')
+        
         const data = await res.json()
+        if (!data || !data.data) throw new Error('Invalid WakaTime data')
+
+        const stats = data.data
 
         setWakaStats({
-          totalCodingTime: data.data?.human_readable_total || null,
-          languages: (data.data?.languages || []).slice(0, 6).map((l) => ({
+          totalCodingTime: stats.human_readable_total_including_other_language || stats.human_readable_total || '0 secs',
+          dailyAverage: stats.human_readable_daily_average || '0 secs',
+          bestDay: stats.best_day ? {
+            date: new Date(stats.best_day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+            text: stats.best_day.text
+          } : null,
+          startDate: stats.start ? new Date(stats.start).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown',
+          endDate: stats.end ? new Date(stats.end).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown',
+          languages: (stats.languages || []).slice(0, 5).map((l) => ({
             name: l.name,
             percentage: Math.round(l.percent),
             hours: l.text,
           })),
+          editors: (stats.editors || []).slice(0, 3).map((e) => ({
+            name: e.name,
+            percentage: Math.round(e.percent),
+            hours: e.text,
+          })),
           loading: false,
           error: false,
         })
-      } catch {
-        // WakaTime API may require auth — fallback to embed chart
+      } catch (err) {
+        console.error(err)
         setWakaStats((prev) => ({ ...prev, loading: false, error: true }))
       }
     }
@@ -1065,39 +1084,105 @@ function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div className="dash-waka-data">
-                  {wakaStats.totalCodingTime && (
-                    <div className="dash-waka-total">
-                      <span className="dash-waka-total-label">LAST 7 DAYS</span>
-                      <span className="dash-waka-total-value">{wakaStats.totalCodingTime}</span>
+                  <div className="dash-wakatime-clone">
+                    {/* Header */}
+                    <div className="wakatime-clone-header">
+                      <div className="wakatime-clone-icon-wrapper">
+                        <svg className="wakatime-clone-icon" viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                          <path fillRule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8-3a.5.5 0 01.5.5v3.293l1.854 1.853a.5.5 0 01-.708.708l-2-2A.5.5 0 017 9V5.5A.5.5 0 018 5z"></path>
+                        </svg>
+                      </div>
+                      <div className="wakatime-clone-title-wrapper">
+                        <h4 className="wakatime-clone-title">Coding Activity</h4>
+                        <p className="wakatime-clone-subtitle">{wakaStats.startDate?.replace(/,\s\d{4}$/, '')} → {wakaStats.endDate}</p>
+                      </div>
                     </div>
-                  )}
-                  <div className="dash-waka-langs">
-                    {wakaStats.languages.map((lang) => (
-                      <div className="dash-lang-item" key={lang.name}>
-                        <div className="dash-lang-header">
-                          <span className="dash-lang-name">
-                            <span
-                              className="dash-lang-dot"
-                              style={{ background: LANG_COLORS[lang.name] || '#4FC3F7' }}
-                            />
-                            {lang.name}
-                          </span>
-                          <span className="dash-lang-pct">{lang.percentage}%</span>
+
+                    {/* 4 Cards Grid */}
+                    <div className="wakatime-clone-grid">
+                      <div className="wakatime-clone-card">
+                        <span className="wakatime-card-label">START DATE</span>
+                        <span className="wakatime-card-value">{wakaStats.startDate && wakaStats.startDate.split(',')[0]}</span>
+                        <span className="wakatime-card-sub">{wakaStats.startDate && wakaStats.startDate.split(',')[1]}</span>
+                      </div>
+                      <div className="wakatime-clone-card">
+                        <span className="wakatime-card-label">WEEK TOTAL</span>
+                        <span className="wakatime-card-value">{wakaStats.totalCodingTime}</span>
+                      </div>
+                      <div className="wakatime-clone-card">
+                        <span className="wakatime-card-label">DAILY AVG</span>
+                        <span className="wakatime-card-value">{wakaStats.dailyAverage}</span>
+                      </div>
+                      <div className="wakatime-clone-card">
+                        <span className="wakatime-card-label">BEST DAY</span>
+                        <span className="wakatime-card-value">{wakaStats.bestDay?.date || 'Unknown'}</span>
+                        <span className="wakatime-card-sub">{wakaStats.bestDay?.text || '0 secs'}</span>
+                      </div>
+                    </div>
+
+                    {/* Total All Time Banner */}
+                    <div className="wakatime-clone-banner">
+                      <div className="wakatime-banner-left">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        <span>Total Coding Sejak Bergabung</span>
+                      </div>
+                      <div className="wakatime-banner-right">
+                        {wakaStats.totalCodingTime} {/* Last 7 days total fallback if all_time is empty */}
+                      </div>
+                    </div>
+
+                    {/* Top Languages */}
+                    <div className="wakatime-clone-langs">
+                      <div className="wakatime-langs-header">
+                        <div className="wakatime-langs-title">
+                          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                            <path d="M2.5 13.5A.5.5 0 013 13h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zM2 2a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v9a.5.5 0 01-.5.5h-2a.5.5 0 01-.5-.5V2zm5 4a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v5a.5.5 0 01-.5.5h-2a.5.5 0 01-.5-.5V6zm5-2a.5.5 0 01.5-.5h2a.5.5 0 01.5.5v7a.5.5 0 01-.5.5h-2a.5.5 0 01-.5-.5V4z"></path>
+                          </svg>
+                          <span>TOP LANGUAGES</span>
                         </div>
-                        <div className="dash-lang-bar-track">
-                          <div
-                            className="dash-lang-bar-fill"
-                            style={{
-                              '--progress': `${lang.percentage}%`,
-                              background: `linear-gradient(to right, ${LANG_COLORS[lang.name] || '#4FC3F7'}, ${LANG_COLORS[lang.name] || '#4FC3F7'}88)`,
-                            }}
-                          />
+                        <span className="wakatime-langs-badge">{wakaStats.languages?.length || 0} langs</span>
+                      </div>
+
+                      <div className="wakatime-langs-list">
+                        {(wakaStats.languages && wakaStats.languages.length > 0 ? wakaStats.languages : [{name: 'No Data', percentage: 0}]).map((lang) => (
+                          <div className="wakatime-lang-row" key={lang.name}>
+                            <div className="wakatime-lang-name">
+                              <span className="wakatime-lang-dot" style={{ background: LANG_COLORS[lang.name] || '#3178C6' }}></span>
+                              {lang.name}
+                            </div>
+                            <div className="wakatime-lang-bar-wrapper">
+                              <div className="wakatime-lang-bar" style={{ 
+                                width: `${lang.percentage}%`,
+                                background: LANG_COLORS[lang.name] || '#3178C6' 
+                              }}></div>
+                            </div>
+                            <div className="wakatime-lang-pct">{lang.percentage}%</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Editors Used (Extra feature request) */}
+                    <div className="wakatime-clone-langs" style={{ marginTop: '16px' }}>
+                      <div className="wakatime-langs-header">
+                        <div className="wakatime-langs-title">
+                          <span>EDITORS USED</span>
                         </div>
                       </div>
-                    ))}
+                      <div className="wakatime-langs-list" style={{ display: 'flex', gap: '15px' }}>
+                        {(wakaStats.editors && wakaStats.editors.length > 0 ? wakaStats.editors : [{name: 'No Data', percentage: 0}]).map((editor) => (
+                          <div key={editor.name} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ color: '#fff', fontSize: '0.85rem' }}>{editor.name}</span>
+                            <span style={{ color: '#8A9BAD', fontSize: '0.75rem' }}>{editor.percentage}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="wakatime-clone-footer">
+                      Powered by WakaTime API · Secret API Key
+                    </div>
                   </div>
-                </div>
               )}
             </SpotlightCard>
           </div>

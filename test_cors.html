@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <body>
+    <script>
+      const apiKey = "waka_cec9d646-871e-4ab8-bfdb-bd26807d7302";
+      const encodedKey = btoa(apiKey);
+      fetch("https://wakatime.com/api/v1/users/current/stats/last_7_days", {
+        headers: {
+          Authorization: `Basic ${encodedKey}`,
+        },
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          console.log(d);
+          document.body.innerHTML +=
+            "SUCCESS: " + d.data.human_readable_total_including_other_language;
+        })
+        .catch((e) => {
+          console.error(e);
+          document.body.innerHTML += "ERROR: " + e.message;
+        });
+    </script>
+  </body>
+</html>
