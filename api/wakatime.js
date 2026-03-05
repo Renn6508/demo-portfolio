@@ -1,12 +1,8 @@
 export default async function handler(request, response) {
-  const apiKey = 'waka_cec9d646-871e-4ab8-bfdb-bd26807d7302';
+  const apiKey = 'waka_3bb68930-d951-481e-961e-e1506a95ffbf';
   
   try {
-    const res = await fetch('https://wakatime.com/api/v1/users/current/stats/last_7_days', {
-      headers: {
-        'Authorization': `Basic ${Buffer.from(apiKey).toString('base64')}`
-      }
-    });
+    const res = await fetch(`https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=${apiKey}`);
 
     if (!res.ok) {
       throw new Error(`WakaTime API returned ${res.status}`);
