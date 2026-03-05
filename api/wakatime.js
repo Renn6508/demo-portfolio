@@ -1,5 +1,5 @@
 export default async function handler(request, response) {
-  const apiKey = 'waka_3bb68930-d951-481e-961e-e1506a95ffbf';
+  const apiKey = 'waka_15a56351-657d-4b2b-903d-49c23d15fb55';
   
   try {
     const res = await fetch(`https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=${apiKey}`);
